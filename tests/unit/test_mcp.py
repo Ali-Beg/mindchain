@@ -3,7 +3,7 @@ Unit tests for the Master Control Program (MCP)
 """
 import pytest
 import asyncio
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, AsyncMock, patch
 
 # Try to import from the installed package first, fall back to src.mindchain for local development
 try:
@@ -106,8 +106,8 @@ class TestMCP:
         """Test supervising task execution"""
         agent_id = mcp.register_agent(agent)
         
-        # Mock task function
-        mock_task = MagicMock(return_value="Task result")
+        # Use AsyncMock instead of MagicMock to return a coroutine
+        mock_task = AsyncMock(return_value="Task result")
         
         result = await mcp.supervise_execution(agent_id, mock_task)
         assert result == "Task result"
@@ -118,8 +118,8 @@ class TestMCP:
         """Test supervising task execution with error"""
         agent_id = mcp.register_agent(agent)
         
-        # Mock task function that raises an exception
-        mock_task = MagicMock(side_effect=ValueError("Test error"))
+        # Use AsyncMock for async errors too
+        mock_task = AsyncMock(side_effect=ValueError("Test error"))
         
         with pytest.raises(ValueError, match="Test error"):
             await mcp.supervise_execution(agent_id, mock_task)
