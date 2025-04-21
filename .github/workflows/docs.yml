@@ -35,8 +35,8 @@ jobs:
 
       - name: Build documentation
         run: |
-          # Run mkdocs from the project root, specifying the config file location
-          poetry run mkdocs build -f docs/mkdocs.yml -d site
+          # Build using the config file with explicit docs_dir and site_dir
+          poetry run mkdocs build -f docs/mkdocs.yml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

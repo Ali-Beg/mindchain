@@ -3,6 +3,10 @@ site_description: Documentation for the MindChain Agentic AI Framework
 site_author: Your Name
 site_url: https://yourusername.github.io/mindchain
 
+# Explicitly set docs_dir to the current directory (relative to mkdocs.yml)
+docs_dir: .
+site_dir: ../site
+
 repo_name: yourusername/mindchain
 repo_url: https://github.com/yourusername/mindchain
 edit_uri: edit/main/docs/
