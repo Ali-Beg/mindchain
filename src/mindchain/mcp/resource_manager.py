@@ -5,7 +5,7 @@ This module handles resource allocation, tracking, and limits for the system.
 """
 import logging
 import time
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional, cast
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ class ResourceManager:
     Manages system resources and enforces resource limits
     """
     
-    def __init__(self, resource_limits: Dict[str, Any]):
+    def __init__(self, resource_limits: Dict[str, Any]) -> None:
         """
         Initialize the resource manager with limits
         
@@ -32,7 +32,7 @@ class ResourceManager:
         }
         
         # Rate limiting trackers
-        self.api_call_timestamps = []
+        self.api_call_timestamps: List[float] = []
         
         logger.info("Resource Manager initialized with limits: %s", self.limits)
     

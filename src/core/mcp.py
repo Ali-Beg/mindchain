@@ -6,13 +6,15 @@ The supervisory layer responsible for managing and monitoring all agents in the 
 import logging
 import uuid
 import time
-from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Any, Callable, TypeVar, cast
 
 from .agent import Agent
 from .errors import MCPError
 
 logger = logging.getLogger(__name__)
+
+T = TypeVar('T')
 
 @dataclass
 class AgentMetrics:
@@ -31,7 +33,7 @@ class MCP:
     Master Control Program - Supervisory layer for the agent system
     """
     
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
         """
         Initialize the MCP with the given configuration
         
@@ -46,7 +48,7 @@ class MCP:
         self._init_logging()
         logger.info("Master Control Program initialized")
     
-    def _init_logging(self):
+    def _init_logging(self) -> None:
         """Configure logging system based on configuration"""
         log_level = self.config.get('log_level', 'INFO')
         logging.basicConfig(
@@ -56,20 +58,22 @@ class MCP:
     
     def _load_policies(self) -> Dict[str, Any]:
         """Load policy definitions from configuration"""
-        return self.config.get('policies', {
+        policies: Dict[str, Any] = self.config.get('policies', {
             'max_consecutive_errors': 3,
             'default_timeout': 30,
             'allow_external_tools': False,
         })
+        return policies
     
     def _load_resource_limits(self) -> Dict[str, Any]:
         """Load resource limit definitions from configuration"""
-        return self.config.get('resource_limits', {
+        resource_limits: Dict[str, Any] = self.config.get('resource_limits', {
             'max_agents': 10,
             'max_tokens_per_request': 4000,
             'max_total_tokens': 100000,
             'max_concurrent_tasks': 5,
         })
+        return resource_limits
     
     def register_agent(self, agent: Agent) -> str:
         """
@@ -152,7 +156,7 @@ class MCP:
                       api_calls: int = 0,
                       task_completed: bool = False,
                       error_occurred: bool = False,
-                      response_time: float = None):
+                      response_time: Optional[float] = None) -> None:
         """
         Update the metrics for an agent
         
@@ -220,8 +224,8 @@ class MCP:
         
         return True
     
-    def supervise_execution(self, agent_id: str, task: Callable, 
-                          timeout: Optional[float] = None) -> Any:
+    def supervise_execution(self, agent_id: str, task: Callable[[], T], 
+                          timeout: Optional[float] = None) -> T:
         """
         Supervise the execution of a task by an agent
         

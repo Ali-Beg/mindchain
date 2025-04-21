@@ -11,10 +11,10 @@ class MemoryManager:
     Memory Manager handles storage and retrieval of information for agents
     """
     
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the memory manager with empty storage"""
-        self.short_term_memory = []
-        self.long_term_memory = []
+        self.short_term_memory: List[Dict[str, Any]] = []
+        self.long_term_memory: List[Dict[str, Any]] = []
         logger.info("Memory Manager initialized")
     
     async def store(self, item: Dict[str, Any]) -> None:
