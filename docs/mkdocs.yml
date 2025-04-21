@@ -1,14 +1,14 @@
 site_name: MindChain Agentic Framework
 site_description: Documentation for the MindChain Agentic AI Framework
-site_author: Your Name
-site_url: https://yourusername.github.io/mindchain
+site_author: ALI BEH
+site_url: https://ali-beg.github.io/mindchain
 
 # Explicitly set docs_dir to the current directory (relative to mkdocs.yml)
 docs_dir: .
 site_dir: ../site
 
 repo_name: yourusername/mindchain
-repo_url: https://github.com/yourusername/mindchain
+repo_url: https://github.com/ali-beg/mindchain
 edit_uri: edit/main/docs/
 
 theme:
@@ -34,10 +34,8 @@ plugins:
       default_handler: python
       handlers:
         python:
-          rendering:
+          options:
             show_source: true
-      watch:
-        - ../src/mindchain
 
 markdown_extensions:
   - admonition
@@ -57,8 +55,8 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
