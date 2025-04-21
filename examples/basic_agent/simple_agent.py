@@ -7,8 +7,11 @@ import asyncio
 import logging
 from dotenv import load_dotenv
 
-# Update import path to match the current implementation
-from src.mindchain import MCP, Agent, AgentConfig
+# Try to import from the installed package first, fall back to src.mindchain for local development
+try:
+    from mindchain import MCP, Agent, AgentConfig
+except ImportError:
+    from src.mindchain import MCP, Agent, AgentConfig
 
 # Load environment variables from .env file (for future LLM API key)
 load_dotenv()

@@ -7,8 +7,11 @@ import sys
 import os
 from typing import Dict, Any
 
-# Import directly from src.mindchain which is cleaner
-from src.mindchain import MCP, Agent, AgentConfig
+# Try to import from the installed package first, fall back to src.mindchain for local development
+try:
+    from mindchain import MCP, Agent, AgentConfig
+except ImportError:
+    from src.mindchain import MCP, Agent, AgentConfig
 
 @pytest.fixture
 def test_config() -> Dict[str, Any]:

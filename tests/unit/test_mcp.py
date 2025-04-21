@@ -5,9 +5,13 @@ import pytest
 import asyncio
 from unittest.mock import MagicMock, patch
 
-# Update imports to use the correct path - import from src.mindchain instead
-from src.mindchain import MCP, Agent
-from src.mindchain.core.errors import MCPError
+# Try to import from the installed package first, fall back to src.mindchain for local development
+try:
+    from mindchain import MCP, Agent
+    from mindchain.core.errors import MCPError
+except ImportError:
+    from src.mindchain import MCP, Agent
+    from src.mindchain.core.errors import MCPError
 
 class TestMCP:
     """Test cases for the MCP class"""
