@@ -56,3 +56,5 @@ site/
 
 # Jupyter Notebooks
 .ipynb_checkpoints
+.env.example
+*.ipynb_checkpoints

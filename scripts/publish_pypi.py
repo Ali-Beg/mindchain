@@ -17,6 +17,7 @@ import argparse
 import os
 import subprocess
 import sys
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -44,6 +45,30 @@ def run_command(command, description=None):
         print(result.stdout)
     
     return True, result.stdout
+
+def update_version_file(version):
+    """Update the version in the version.py file."""
+    version_file_path = Path('src/mindchain/version.py')
+    
+    if not version_file_path.exists():
+        print(f"Error: Version file not found at {version_file_path}")
+        return False
+    
+    with open(version_file_path, 'r') as file:
+        content = file.read()
+    
+    # Update the version using regex
+    new_content = re.sub(
+        r'__version__\s*=\s*"[^"]+"', 
+        f'__version__ = "{version}"', 
+        content
+    )
+    
+    with open(version_file_path, 'w') as file:
+        file.write(new_content)
+    
+    print(f"Updated version in {version_file_path} to {version}")
+    return True
 
 def publish_to_pypi(repo_path, bump_type):
     """Publish the project to PyPI."""
@@ -84,6 +109,10 @@ def publish_to_pypi(repo_path, bump_type):
     
     # Extract the version number
     current_version = version_output.split()[1]
+    
+    # Update version.py file to match pyproject.toml version
+    if not update_version_file(current_version):
+        return False
     
     # Build the package
     success, _ = run_command(

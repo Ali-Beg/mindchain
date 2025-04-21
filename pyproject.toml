@@ -4,9 +4,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "mindchain"
-version = "0.1.4"
+version = "0.1.5"
 description = "An agentic AI framework with Master Control Program (MCP) supervision"
-authors = ["Md Ali <md.ali@example.com>"]
+authors = ["ALI BEG <mbeg937@gmail.com>"]
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/Ali-Beg/mindchain"

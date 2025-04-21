@@ -251,7 +251,7 @@ class MCP:
             # Execute the task with timeout
             # Note: In a real implementation, you would use async/await or threading
             # for proper timeout handling. This is simplified for illustration.
-            result = task()
+            result = cast(T, task())
             
             # Update metrics
             elapsed = time.time() - start_time

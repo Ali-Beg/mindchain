@@ -9,10 +9,11 @@ import json
 import logging
 import os
 import sys
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Callable, Coroutine
 
 from .mcp.mcp import MCP
 from .core.agent import Agent, AgentConfig
+from .core.errors import AgentError, MCPError
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -56,36 +57,92 @@ async def run_agent(config_path: Optional[str] = None, query: Optional[str] = No
     
     logging.info(f"Agent '{agent_config.name}' initialized with ID: {agent_id}")
 
-    # Process query if provided, otherwise enter interactive mode
-    if query:
-        response = await mcp.supervise_execution(
-            agent_id=agent_id,
-            task=lambda: agent.run(query)
-        )
-        print(f"\n{response}")
-    else:
-        print(f"MindChain CLI - Agent: {agent_config.name}")
-        print("Type 'exit' to quit")
-        
-        while True:
-            try:
-                user_input = input("\nYou: ")
-                if user_input.lower() in ("exit", "quit", "q"):
-                    break
+    try:
+        # Process query if provided, otherwise enter interactive mode
+        if query:
+            # Create a lambda that returns the coroutine to be executed
+            async_task = lambda: agent.run(query)
+            response = await mcp.supervise_execution(
+                agent_id=agent_id,
+                task=async_task
+            )
+            print(f"\nAgent: {response}")
+            
+            while True:
+                try:
+                    continue_input = input("\nContinue to iterate? (y/n): ")
+                    if continue_input.lower() not in ('y', 'yes'):
+                        break
                     
-                response = await mcp.supervise_execution(
-                    agent_id=agent_id,
-                    task=lambda: agent.run(user_input)
-                )
-                print(f"\nAgent: {response}")
-            except KeyboardInterrupt:
-                break
-            except Exception as e:
-                logging.error(f"Error: {e}")
-    
-    # Cleanup
-    mcp.unregister_agent(agent_id)
-    logging.info("Agent unregistered. Exiting.")
+                    # Ask for additional input for the continuation
+                    iteration_input = input("\nProvide additional input (or press Enter to continue with the same context): ")
+                    continuation_prompt = iteration_input if iteration_input else "Please continue from where you left off."
+                    
+                    # Create a new task for the continuation
+                    async_task = lambda: agent.run(continuation_prompt)
+                    response = await mcp.supervise_execution(
+                        agent_id=agent_id,
+                        task=async_task
+                    )
+                    print(f"\nAgent: {response}")
+                except KeyboardInterrupt:
+                    print("\nOperation interrupted by user")
+                    break
+                except Exception as e:
+                    logging.error(f"Error during iteration: {e}")
+                    print(f"\nError: {e}")
+                    break
+        else:
+            print(f"MindChain CLI - Agent: {agent_config.name}")
+            print("Type 'exit' to quit")
+            
+            while True:
+                try:
+                    user_input = input("\nYou: ")
+                    if user_input.lower() in ("exit", "quit", "q"):
+                        break
+                        
+                    # Create a lambda that returns the coroutine to be executed
+                    async_task = lambda: agent.run(user_input)
+                    response = await mcp.supervise_execution(
+                        agent_id=agent_id,
+                        task=async_task
+                    )
+                    print(f"\nAgent: {response}")
+                    
+                    # Ask if the user wants to continue iterating
+                    while True:
+                        continue_input = input("\nContinue to iterate? (y/n): ")
+                        if continue_input.lower() not in ('y', 'yes'):
+                            break
+                        
+                        # Ask for additional input for the continuation
+                        iteration_input = input("\nProvide additional input (or press Enter to continue with the same context): ")
+                        continuation_prompt = iteration_input if iteration_input else "Please continue from where you left off."
+                        
+                        # Create a new task for the continuation
+                        async_task = lambda: agent.run(continuation_prompt)
+                        response = await mcp.supervise_execution(
+                            agent_id=agent_id,
+                            task=async_task
+                        )
+                        print(f"\nAgent: {response}")
+                except KeyboardInterrupt:
+                    print("\nOperation interrupted by user")
+                    break
+                except (AgentError, MCPError) as e:
+                    logging.error(f"Agent or MCP error: {e}")
+                    print(f"\nError: {e}")
+                except Exception as e:
+                    logging.error(f"Unexpected error: {e}")
+                    print(f"\nAn unexpected error occurred: {e}")
+    finally:
+        # Always cleanup, even if there's an exception
+        try:
+            mcp.unregister_agent(agent_id)
+            logging.info("Agent unregistered. Exiting.")
+        except Exception as e:
+            logging.error(f"Error during cleanup: {e}")
 
 
 def main() -> None:
@@ -119,8 +176,8 @@ def main() -> None:
         setup_logging(args.verbose)
         asyncio.run(run_agent(args.config, args.query))
     elif args.command == "version":
-        from . import __version__
-        print(f"MindChain version {__version__}")
+        from . import version
+        print(f"MindChain version {version.__version__}")
     else:
         parser.print_help()
 

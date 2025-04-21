@@ -53,7 +53,7 @@ class ResourceManager:
         Returns:
             can_allocate: Whether allocation is possible
         """
-        return self.current_usage["agents"] < self.limits.get("max_agents", 10)
+        return self.current_usage["agents"] < cast(int, self.limits.get("max_agents", 10))
     
     def allocate_agent(self) -> bool:
         """
@@ -82,7 +82,7 @@ class ResourceManager:
         Returns:
             can_execute: Whether task execution is possible
         """
-        return self.current_usage["active_tasks"] < self.limits.get("max_concurrent_tasks", 5)
+        return self.current_usage["active_tasks"] < cast(int, self.limits.get("max_concurrent_tasks", 5))
     
     def start_task(self) -> bool:
         """
@@ -115,7 +115,7 @@ class ResourceManager:
             can_use: Whether token usage is allowed
         """
         # Check if this request would exceed per-request limit
-        if token_count > self.limits.get("max_tokens_per_request", 4000):
+        if (token_count > self.limits.get("max_tokens_per_request", 4000)):
             logger.warning("Token usage denied: exceeds max tokens per request")
             return False
         

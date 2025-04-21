@@ -14,7 +14,7 @@ currently being supported with security updates.
 We take the security of MindChain seriously. If you believe you've found a security vulnerability, please follow these steps:
 
 1. **Do not disclose the vulnerability publicly**
-2. **Email us at [security@example.com](mailto:security@example.com)** with:
+2. **Email us at [mbeg937@gmail.com](mailto:mbeg937@gmail.com)** with:
    - Description of the vulnerability
    - Steps to reproduce
    - Potential impact
