@@ -171,7 +171,7 @@ pytest
 
 ## Documentation
 
-For detailed documentation, visit [https://md-ali-beg.github.io/mindchain](https://md-ali-beg.github.io/mindchain)
+For detailed documentation, visit [https://ali-beg.github.io/mindchain](https://ali-beg.github.io/mindchain)
 
 ## Contributing
 

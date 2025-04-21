@@ -1,14 +1,14 @@
 site_name: MindChain Agentic Framework
 site_description: Documentation for the MindChain Agentic AI Framework
-site_author: ALI BEH
+site_author: ALI BEG
 site_url: https://ali-beg.github.io/mindchain
 
 # Explicitly set docs_dir to the current directory (relative to mkdocs.yml)
 docs_dir: .
 site_dir: ../site
 
-repo_name: yourusername/mindchain
-repo_url: https://github.com/ali-beg/mindchain
+repo_name: Ali-Beg/mindchain
+repo_url: https://github.com/Ali-Beg/mindchain
 edit_uri: edit/main/docs/
 
 theme:
@@ -112,10 +112,6 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/mindchain
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/yourusername
-    - icon: fontawesome/brands/discord
-      link: https://discord.gg/yourserver
+      link: https://github.com/Ali-Beg
 
-copyright: Copyright &copy; 2023 Your Name / Organization
+copyright: Copyright &copy; 2023-2025 ALI BEG
