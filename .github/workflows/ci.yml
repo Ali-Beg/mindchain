@@ -41,10 +41,14 @@ jobs:
     #    mypy src
     - name: Test with pytest
       run: |
-        pytest --cov=mindchain --cov-report=xml tests/
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        fail_ci_if_error: true
+        pytest tests/
+        # Run with coverage report generation only if explicitly requested
+        # pytest --cov=mindchain --cov-report=xml tests/
+    
+    # Codecov upload temporarily disabled
+    # - name: Upload coverage to Codecov
+    #   uses: codecov/codecov-action@v3
+    #   with:
+    #     token: ${{ secrets.CODECOV_TOKEN }}
+    #     file: ./coverage.xml
+    #     fail_ci_if_error: false  # Don't fail the build if codecov upload fails
