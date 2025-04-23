@@ -1,0 +1,117 @@
+site_name: MindChain Agentic Framework
+site_description: Documentation for the MindChain Agentic AI Framework
+site_author: ALI BEG
+site_url: https://ali-beg.github.io/mindchain
+
+# Explicitly set docs_dir to the current directory (relative to mkdocs.yml)
+docs_dir: .
+site_dir: ../site
+
+repo_name: Ali-Beg/mindchain
+repo_url: https://github.com/Ali-Beg/mindchain
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+  logo: _static/logo.png
+  favicon: _static/favicon.ico
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite:
+      guess_lang: false
+  - def_list
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Basic Concepts: getting-started/concepts.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Master Control Program: architecture/mcp.md
+    - Agents: architecture/agents.md
+    - Memory System: architecture/memory.md
+    - Tool Ecosystem: architecture/tools.md
+  - Guides:
+    - Creating Agents: guides/creating-agents.md
+    - Memory Management: guides/memory-management.md
+    - Custom Tools: guides/custom-tools.md
+    - Multi-agent Systems: guides/multi-agent.md
+  - Tutorials:
+    - Basic Agent: tutorials/basic-agent.md
+    - Research Assistant: tutorials/research-assistant.md
+    - Multi-agent Collaboration: tutorials/multi-agent.md
+  - API Reference:
+    - MCP: api/mcp.md
+    - Core: api/core.md
+    - Memory: api/memory.md
+    - Tools: api/tools.md
+    - Interfaces: api/interfaces.md
+    - Utils: api/utils.md
+  - Contributing:
+    - Guide: contributing.md
+    - Development Setup: contributing/development.md
+    - Code Style: contributing/code-style.md
+    - Testing: contributing/testing.md
+  - Governance: governance.md
+  - Roadmap: roadmap.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Ali-Beg
+
+copyright: Copyright &copy; 2023-2025 ALI BEG
