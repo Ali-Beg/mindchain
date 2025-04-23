@@ -53,15 +53,15 @@ class Agent:
         self.name = config.name
         self.status = AgentStatus.INITIALIZING
         self.memory = memory_manager or MemoryManager()
-        self.tools = {}  # Will be populated by tool registry
-        self.current_task = None
-        self._last_response = None
-        self._history = []
+        self.tools: Dict[str, Callable] = {}  # Will be populated by tool registry
+        self.current_task: Optional[str] = None
+        self._last_response: Optional[str] = None
+        self._history: List[Dict[str, str]] = []
         
         logger.info(f"Agent {self.name} ({self.id}) initialized")
         self.status = AgentStatus.IDLE
         
-    def reset(self):
+    def reset(self) -> None:
         """Reset the agent's state"""
         self._history = []
         self._last_response = None
@@ -164,8 +164,8 @@ class Agent:
         ]
         
         # Add context if available
-        if context:
-            context_str = "\n\n".join([item.get("content", "") for item in context])
+        if (context):
+            context_str = "\n\n".join([item.get("content", "") for item in context if isinstance(item, dict)])
             messages.append({"role": "system", "content": f"Relevant context: {context_str}"})
         
         # Add conversation history (limited to last few exchanges)
@@ -182,7 +182,7 @@ class Agent:
         # For now, just return a placeholder response
         return f"Agent {self.name} processed: {user_input[:30]}...\nThis is a simulated response for demonstration purposes."
     
-    def _get_current_timestamp(self) -> int:
+    def _get_current_timestamp(self: "Agent") -> int:
         """Get the current timestamp in seconds"""
         import time
         return int(time.time())
@@ -204,8 +204,13 @@ class Agent:
         try:
             logger.debug(f"Agent {self.id} executing tool '{tool_name}'")
             tool_fn = self.tools[tool_name]
-            result = await tool_fn(**kwargs) if callable(tool_fn) else None
-            return result
+            # Remove the conditional assignment that might return None for a function result
+            if callable(tool_fn):
+                result = await tool_fn(**kwargs)
+                return result
+            else:
+                logger.warning(f"Tool '{tool_name}' is not callable")
+                return None
         except Exception as e:
             logger.error(f"Error executing tool '{tool_name}': {str(e)}")
             raise AgentError(f"Tool execution error: {str(e)}") from e

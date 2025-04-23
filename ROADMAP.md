@@ -2,7 +2,7 @@
 
 This document outlines the development roadmap for the MindChain framework, highlighting planned features and improvements.
 
-## Current Version (0.1.0)
+## Current Version (0.1.7)
 
 - ✅ Initial implementation of the Master Control Program (MCP)
 - ✅ Basic Agent implementation with simulated responses

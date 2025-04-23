@@ -116,5 +116,5 @@ The following features are planned for upcoming development:
 
 ## Project Structure
 
-See the [Repository Structure](architecture/repository_structure.md) documentation for details on how the project is organized.
+See the [Repository Structure](https://github.com/Ali-Beg/mindchain/blob/main/docs/architecture/repository_structure.md) documentation for details on how the project is organized.
 "<!-- Updated: $(date) -->" 

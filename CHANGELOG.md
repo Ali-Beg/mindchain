@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Future features and changes will be listed here
 
-## [0.1.0] - 2025-04-21
+## [0.1.7] - 2025-04-21
 
 ### Added
 - Initial implementation of Master Control Program (MCP)

@@ -175,12 +175,12 @@ For detailed documentation, visit [https://ali-beg.github.io/mindchain](https://
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+We welcome contributions! See [CONTRIBUTING.md](https://github.com/Ali-Beg/mindchain/blob/main/CONTRIBUTING.md) for details.
 
 ## Roadmap
 
-Check out our [ROADMAP.md](ROADMAP.md) for upcoming features and development plans.
+Check out our [ROADMAP.md](https://github.com/Ali-Beg/mindchain/blob/main/ROADMAP.md) for upcoming features and development plans.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Ali-Beg/mindchain/blob/main/LICENSE) file for details.

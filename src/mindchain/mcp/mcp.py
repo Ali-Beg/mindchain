@@ -44,7 +44,7 @@ class MCP:
         })
         self.logger.info("MCP initialized with policies: %s", self.policies)
     
-    def _init_logging(self):
+    def _init_logging(self) -> None:
         """Configure logging system based on configuration"""
         log_level = self.config.get('log_level', 'INFO')
         logging.basicConfig(
@@ -148,7 +148,7 @@ class MCP:
                       api_calls: int = 0,
                       task_completed: bool = False,
                       error_occurred: bool = False,
-                      response_time: float = None):
+                      response_time: Optional[float] = None) -> None:
         """
         Update the metrics for an agent
         
@@ -223,8 +223,15 @@ class MCP:
             self.resource_manager.complete_task()
             
             # Apply policies to the result if needed
-            if isinstance(result, str):
-                result = self.policy_manager.enforce_token_limits(result)
+            if isinstance(result, str) and hasattr(self.policy_manager, 'enforce_token_limits'):
+                # For type safety, we cast the result back to T after modification
+                # This is safe because we've checked that the original result is a string
+                # and the enforce_token_limits method returns a string
+                modified_str = self.policy_manager.enforce_token_limits(result)
+                # Using cast to assure mypy that the modified string is of type T
+                # This is necessary when T could be a more specific string subtype
+                from typing import cast
+                result = cast(T, modified_str)
             
             # Update metrics
             elapsed_time = time.time() - start_time
@@ -234,7 +241,7 @@ class MCP:
                 response_time=elapsed_time
             )
             
-            return cast(T, result)
+            return result
         
         except Exception as e:
             # Record task completion (even though it failed)

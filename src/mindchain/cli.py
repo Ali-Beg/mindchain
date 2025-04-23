@@ -43,12 +43,30 @@ async def run_agent(config_path: Optional[str] = None, query: Optional[str] = No
         try:
             with open(config_path, "r") as f:
                 config_data = json.load(f)
-            agent_config = AgentConfig(**config_data)
+            # Create the configuration properly with named parameters
+            agent_config = AgentConfig(
+                name=str(config_data.get("name", "DefaultAgent")),
+                description=str(config_data.get("description", "")),
+                model_name=str(config_data.get("model_name", "gpt-3.5-turbo")),
+                temperature=float(config_data.get("temperature", 0.7)),
+                max_tokens=int(config_data.get("max_tokens", 1000)),
+                tools=config_data.get("tools", []),
+                system_prompt=str(config_data.get("system_prompt", "You are a helpful AI assistant.")),
+                metadata=config_data.get("metadata", {})
+            )
         except Exception as e:
             logging.error(f"Error loading configuration: {e}")
             sys.exit(1)
     else:
-        agent_config = AgentConfig(**default_config)
+        # Create with default configuration
+        agent_config = AgentConfig(
+            name=default_config["name"],
+            description=default_config["description"],
+            model_name=default_config["model_name"],
+            system_prompt=default_config["system_prompt"],
+            temperature=default_config["temperature"],
+            max_tokens=default_config["max_tokens"]
+        )
 
     # Initialize MCP and agent
     mcp = MCP()

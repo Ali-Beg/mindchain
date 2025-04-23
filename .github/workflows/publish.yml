@@ -29,12 +29,11 @@ jobs:
       run: poetry install --no-interaction --no-ansi
     - name: Run tests
       run: |
-        poetry run pytest tests/ --cov=mindchain --cov-report=xml
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: false
+        poetry run pytest tests/
+    # Type checking temporarily disabled
+    # - name: Type check with mypy
+    #  run: |
+    #    poetry run mypy src
     # Only publish to PyPI on release events
     - name: Build and publish
       if: github.event_name == 'release'

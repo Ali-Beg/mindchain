@@ -64,7 +64,7 @@ class AgentOrchestrator:
         agent_id: str, 
         task_prompt: str, 
         step_name: str = "", 
-        depends_on: List[str] = None
+        depends_on: Optional[List[str]] = None
     ) -> str:
         """
         Adds a step to an existing workflow.
@@ -127,7 +127,8 @@ class AgentOrchestrator:
         """
         if workflow_id not in self.workflows:
             raise OrchestrationError(f"Workflow with ID {workflow_id} does not exist")
-        return self.workflows[workflow_id]
+        # Return a copy to avoid direct modification of internal state
+        return dict(self.workflows[workflow_id])
     
     def list_workflows(self) -> List[Dict[str, Any]]:
         """
@@ -205,7 +206,8 @@ class AgentOrchestrator:
             workflow['status'] = 'completed'
             logger.info(f"Successfully completed workflow '{workflow['name']}'")
             
-            return workflow['results']
+            # Return a copy of the results dictionary to avoid unintended modifications
+            return dict(workflow['results'])
             
         except Exception as e:
             workflow['status'] = 'failed'

@@ -86,7 +86,8 @@ class MCP:
             agent_id: Unique ID assigned to the agent
         """
         # Check if we've reached the maximum number of agents
-        if len(self.agents) >= self.resource_limits.get('max_agents'):
+        max_agents = self.resource_limits.get('max_agents', 10)
+        if len(self.agents) >= max_agents:
             raise MCPError("Maximum number of agents reached")
         
         # Generate a unique ID for the agent if not already set
@@ -251,7 +252,7 @@ class MCP:
             # Execute the task with timeout
             # Note: In a real implementation, you would use async/await or threading
             # for proper timeout handling. This is simplified for illustration.
-            result = cast(T, task())
+            result = task()  # Remove the unnecessary cast here
             
             # Update metrics
             elapsed = time.time() - start_time
@@ -262,7 +263,7 @@ class MCP:
             )
             
             return result
-            
+        
         except Exception as e:
             # Update error metrics
             self.update_metrics(
